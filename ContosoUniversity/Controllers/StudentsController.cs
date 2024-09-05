@@ -93,6 +93,34 @@ namespace ContosoUniversity.Controllers
             }
             return View(student);
         }
+        //student delete meetod
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var student = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
+
+            if (student == null)
+            {
+                return NotFound();
+            }
+            return View(student);
+        }
+
+        //Delete post meetod teeb andmebaasi vajaliku muudatuse
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var student=await _context.Students.FindAsync(id); //otsime õpilasi id järgi
+
+            _context.Students.Remove(student);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
      
     }
 }
