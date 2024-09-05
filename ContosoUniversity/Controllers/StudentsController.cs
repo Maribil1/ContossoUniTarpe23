@@ -75,21 +75,21 @@ namespace ContosoUniversity.Controllers
         }
         */
         //Creat get, haarab vaatest andmed, mida create meetod vajab.
-        public IActionResult Create() 
-        { 
-          return View();
+        public IActionResult Create()
+        {
+            return View();
         }
 
         //Create meetod, sisestab andmebaasi uuse õpilase. insert new student into database
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID, LastName, FirstMidName, EnrollmentDate")]Student student)
+        public async Task<IActionResult> Create([Bind("ID, LastName, FirstMidName, EnrollmentDate")] Student student)
         {
-            if (ModelState.IsValid) 
-            { 
-              _context.Students.Add(student);
-              await _context.SaveChangesAsync();
-              return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                _context.Students.Add(student);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
             return View(student);
         }
@@ -115,26 +115,53 @@ namespace ContosoUniversity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var student=await _context.Students.FindAsync(id); //otsime õpilasi id järgi
+            var student = await _context.Students.FindAsync(id); //otsime õpilasi id järgi
 
             _context.Students.Remove(student);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task <IActionResult> Details(int? id)//details meeetod, naitab student andmeid
+        public async Task<IActionResult> Details(int? id)//details meeetod, naitab student andmeid
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var student= await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
+            var student = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
             if (student == null)
             {
                 return NotFound();
             }
             return View(student);
         }
+       
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit([Bind("ID, LastName, FirstMidName, EnrollmentDate")] Student student)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Students.Update(student);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(student);
+        }
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var student = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
+
+            if (student == null)
+            {
+                return NotFound();
+            }
+            return View(student);
+        }
     }
 }
