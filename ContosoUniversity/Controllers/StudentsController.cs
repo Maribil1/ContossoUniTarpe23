@@ -121,6 +121,20 @@ namespace ContosoUniversity.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-     
+
+        public async Task <IActionResult> Details(int? id)//details meeetod, naitab student andmeid
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var student= await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+            return View(student);
+        }
+
     }
 }
