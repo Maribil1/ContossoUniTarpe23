@@ -162,6 +162,46 @@ namespace ContosoUniversity.Controllers
                 return NotFound();
             }
             return View(student);
+
         }
+        public async Task<IActionResult> Clone(int? id)
+        {
+            if (id == null)
+            {
+                return(NotFound());
+            }
+            var student= await _context.Students.FirstOrDefaultAsync(m=>m.ID == id);
+
+            var studentclone = new Student()
+            {
+                FirstMidName = student.FirstMidName,
+                LastName = student.LastName,
+                EnrollmentDate = student.EnrollmentDate
+
+            };
+            if (studentclone != null)
+            {
+                _context.Students.Add(studentclone);
+               await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+
+            return View(student);
+
+        }
+        public async Task<IActionResult> Merge(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var student = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+            return View(student);
+        }
+
     }
 }
