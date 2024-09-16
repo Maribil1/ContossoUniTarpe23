@@ -45,7 +45,64 @@ namespace ContosoUniversity.Controllers
                     .Enrollments;
             }
 
+            return View(vm);
+        }
+        [HttpGet]
+        public IActionResult Create()
+        {
+            var instructor = new Instructor();
+            instructor.CourseAssignments = new List<CourseAssignment>();
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Instructor instructor/*, string? selectedCourses*/)
+        {
+            //if (selectedCourses == null)
+            //{
+            //    instructor.CourseAssignments = new List<CourseAssignment>();
+            //    foreach (var course in selectedCourses)
+            //    {
+            //        var courseToAdd = new CourseAssignment
+            //        {
+            //            InstructorID = instructor.ID,
+            //            CourseID = course
+            //        };
+            //        instructor.CourseAssignments.Add(courseToAdd);
+            //    }
+            //}
+            //ModelState.Remove();
+            //ModelState.Remove(selectedCourses);
+            if (ModelState.IsValid)
+            {
+                _context.Add(instructor);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            //PopulateAsjah kannatab
+            //signedCourseData(instructor); //uuendab instructori juures olevaid kursuseid
+            return View(instructor);
+        }
+
+        private void PopulateAssignedCourseData(Instructor instructor)
+        {
+            var allCourses = _context.Courses; //leiame kõik kursused
+            var instructorCourses = new HashSet<int>(instructor.CourseAssignments.Select(c => c.CourseID));
+            //valime kursused kus courseid on õpetajal olemas
+            var vm = new List<AssignedCourseData>(); //teeme viewmodeli jaoks uue nimekirja
+            foreach (var course in allCourses)
+            {
+                vm.Add(new AssignedCourseData
+                {
+                    CourseId = course.CourseID,
+                    Title = course.Title,
+                    Assigned = instructorCourses.Contains(course.CourseID)
+                });
+            }
+            ViewData["Courses"] = vm;
         }
     }
 }
+    
+
