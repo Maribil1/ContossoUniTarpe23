@@ -21,8 +21,8 @@ namespace ContosoUniversity.Controllers
                 .Include(i => i.CourseAssignments)
                 .ThenInclude(i => i.Course)
                 .ThenInclude(i => i.Enrollments)
-                .ThenInclude(i => i.Student)                
-                .Include(i => i.CourseAssignments)                
+                .ThenInclude(i => i.Student)
+                .Include(i => i.CourseAssignments)
                 .ThenInclude(i => i.Course)
                 .AsNoTracking()
                 .OrderBy(i => i.LastMidName)
@@ -31,8 +31,8 @@ namespace ContosoUniversity.Controllers
             if (id != null)
             {
                 ViewData["InstructorID"] = id.Value;
-                Instructor instructor=vm.Instructors
-                    .Where(i=>i.ID == id.Value).Single();
+                Instructor instructor = vm.Instructors
+                    .Where(i => i.ID == id.Value).Single();
                 vm.Courses = instructor.CourseAssignments
                     .Select(i => i.Course);
             }
@@ -101,6 +101,32 @@ namespace ContosoUniversity.Controllers
                 });
             }
             ViewData["Courses"] = vm;
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var instructor = await _context.Instructors.FirstOrDefaultAsync(m => m.ID == id);
+
+            if (instructor == null)
+            {
+                return NotFound();
+            }
+            return View(instructor);
+        }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var instructor = await _context.Instructors.FindAsync(id); 
+
+            _context.Instructors.Remove(instructor);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }
