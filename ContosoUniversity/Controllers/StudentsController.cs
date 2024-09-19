@@ -172,16 +172,16 @@ namespace ContosoUniversity.Controllers
             }
             var student= await _context.Students.FirstOrDefaultAsync(m=>m.ID == id);
 
-            var studentclone = new Student()
+            var clone = new Student()
             {
                 FirstMidName = student.FirstMidName,
                 LastName = student.LastName,
                 EnrollmentDate = student.EnrollmentDate
 
             };
-            if (studentclone != null)
+            if (clone != null)
             {
-                _context.Students.Add(studentclone);
+                _context.Students.Add(clone);
                await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Index));
