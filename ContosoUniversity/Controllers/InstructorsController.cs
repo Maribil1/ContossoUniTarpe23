@@ -130,7 +130,7 @@ namespace ContosoUniversity.Controllers
         }
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("FirstMidName,LastMidName,HireDate,CourseAssignmentLocation")] Instructor instructor)
+        public async Task<IActionResult> Edit([Bind("ID,FirstMidName,LastMidName,HireDate")] Instructor instructor)
         {
             if (ModelState.IsValid)
             {
