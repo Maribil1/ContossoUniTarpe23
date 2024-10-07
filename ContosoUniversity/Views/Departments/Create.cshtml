@@ -1,4 +1,4 @@
-﻿@model ContosoUniversity.Models.Departments
+﻿@model ContosoUniversity.Models.Department
 
 @{
     ViewData["Title"] = "Create";
@@ -37,6 +37,11 @@
                 <input asp-for="DepartmentHead" class="form-control" />
                 <span asp-validation-for="DepartmentHead" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="DepartmentCleaner" class="control-label"></label>
+                <input asp-for="DepartmentCleaner" class="form-control" />
+                <span asp-validation-for="DepartmentCleaner" class="text-danger"></span>
+            </div>
 
             <div class="form-group">
                 <label asp-for="InstructorID" class="control-label"></label>
@@ -45,8 +50,8 @@
                 </select>
                 <span asp-validation-for="InstructorID" class="text-danger"></span>
             </div>
-
-            <div class="form-group">
+            <div>
+                <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>

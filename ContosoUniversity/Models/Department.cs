@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ContosoUniversity.Models
 {
-    public class Departments
+    public class Department
     {
         [Key] 
         public int DepartmentID { get; set; }
@@ -20,7 +20,7 @@ namespace ContosoUniversity.Models
         [StringLength(500)]
         public string? DepartmentHead { get; set; }
         [Required]
-        [StringLength(500)] 
+        [StringLength(500)]
         public string? DepartmentCleaner { get; set; }
         public int? InstructorID { get; set; }
         public byte? RowVersion { get; set; }

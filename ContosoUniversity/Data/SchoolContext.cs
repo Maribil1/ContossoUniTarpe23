@@ -13,7 +13,7 @@ namespace ContosoUniversity.Data
         public DbSet<Instructor> Instructors { get; set; }
         public DbSet<CourseAssignment>CourseAssignments { get; set; }
         public DbSet<OfficeAssignment> OfficeAssignments { get; set; }
-        public DbSet<Departments> Departments { get; set; }
+        public DbSet<Department> Departments { get; set; }
 
 
 
@@ -25,7 +25,7 @@ namespace ContosoUniversity.Data
             modelBuilder.Entity<Instructor>().ToTable("Instructor");
             modelBuilder.Entity<OfficeAssignment>().ToTable("OfficeAssignments");
             modelBuilder.Entity<CourseAssignment>().ToTable("CourseAssignments");
-            modelBuilder.Entity<Departments>().ToTable("Departments");
+            modelBuilder.Entity<Department>().ToTable("Departments");
             /*modelBuilder.Entity<Enrollment>().ToTable("Enrollment");
             modelBuilder.Entity<Student>().ToTable("Student");
 
