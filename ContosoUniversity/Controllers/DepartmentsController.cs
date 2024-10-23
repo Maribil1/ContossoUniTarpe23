@@ -41,28 +41,7 @@ namespace ContosoUniversity.Controllers
             ViewData["InstructorID"] = new SelectList(_context.Instructors, "ID","FullName",department.InstructorID);
             return View(department);
         }
-        [HttpGet]
-        public async Task<IActionResult> Edit()
-        {
-            ViewData["InstructorID"] = new SelectList(_context.Instructors, "ID", "FullName");
-            return View();
-
-        }
-
-        [HttpPost, ActionName("Edit")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("DepartmentID,Name,Budget,StartDate,RowVersion,DepartmentHead,DepartmentCleaner,InstructorID")] Department department)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Departments.Update(department);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            ViewData["InstructorID"] = new SelectList(_context.Instructors, "ID", "FullName", department.InstructorID);
-            return View(department);
-        }
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -77,6 +56,106 @@ namespace ContosoUniversity.Controllers
             }
             return View(department);
         }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var department = await _context.Departments.FindAsync(id);
+
+            _context.Departments.Remove(department);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+       
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var department = await _context.Departments.FirstOrDefaultAsync(m => m.DepartmentID == id);
+
+            if (department == null)
+            {
+                return NotFound();
+            }
+            ViewData["InstructorID"] = new SelectList(_context.Instructors, "ID", "FullName", department.InstructorID);
+            return View(department);
+        }
+
+
+
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit([Bind("DepartmentID,Name,Budget,StartDate,RowVersion,DepartmentHead,DepartmentCleaner,InstructorID")] Department department)
+        {
+           
+            if (ModelState.IsValid)
+            {
+                _context.Departments.Update(department);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            
+            return View(department);
+        }
+        
+        public async Task<IActionResult> BaseOn(int?id)
+        {
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var department = await _context.Departments.FirstOrDefaultAsync(m => m.DepartmentID == id);
+
+            if (department == null)
+            {
+                return NotFound();
+            }
+            ViewData["InstructorID"] = new SelectList(_context.Instructors, "ID", "FullName", department.InstructorID);
+            return View(department);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BaseOn( Department department)
+        {
+
+            if (ModelState.IsValid)
+            {
+                _context.Departments.Add(department);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            return View(department);
+
+        }
+       
+        public async Task<IActionResult> MakeDelete(int?id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var department = await _context.Departments.FirstOrDefaultAsync(m => m.DepartmentID == id);
+
+            if (department == null)
+            {
+                return NotFound();
+            }
+            return View(department);
+
+
+        }
+
+
+
+
     }
 
    
