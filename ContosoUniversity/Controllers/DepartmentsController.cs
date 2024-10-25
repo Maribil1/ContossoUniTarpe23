@@ -135,7 +135,7 @@ namespace ContosoUniversity.Controllers
 
         }
        
-        public async Task<IActionResult> MakeDelete(int?id)
+        public async Task<IActionResult> MakeDelete(int? id)
         {
             if (id == null)
             {
@@ -148,6 +148,38 @@ namespace ContosoUniversity.Controllers
             {
                 return NotFound();
             }
+            return View(department);
+
+        }
+        public async Task<IActionResult> MakeDelete(Department department)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Departments.Add(department);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            var make = new Department()
+            {
+                Name = department.Name,
+                Budget = department.Budget,
+                StartDate = department.StartDate,
+                RowVersion = department.RowVersion,
+                DepartmentHead= department.DepartmentHead,
+                DepartmentCleaner= department.DepartmentCleaner,
+                InstructorID= department.InstructorID,
+
+
+
+            };
+            if (make != null)
+            {
+                _context.Departments.Add(make);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+
             return View(department);
 
 

@@ -54,19 +54,20 @@
                     <div class="form-group">
                      <input type="submit" value="Make" class="btn btn-primary" />
                 </div>
-                <div>
-                        <form asp-action="MakeDelete">
-                            <input type="hidden" asp-for="DepartmentID" />
-                            <input type="submit" value="Make & Delete Old" class="btn border-top danger" /> 
-                        </form>
-                </div>
+                
+               
 
                 
             </form>
         </div>
     </div>
+    <form asp-action="MakeDelete">
+        <input type="hidden" asp-for="DepartmentID" />
+        <input type="submit" value="Make & Delete" class="btn border-top danger" /> 
+    </form>
     
 </div>
 <div>
+    
     <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
 </div>
